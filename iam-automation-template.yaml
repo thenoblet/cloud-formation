@@ -53,7 +53,7 @@ Resources:
         Password: !Sub "{{resolve:secretsmanager:iam-user-temp-password:SecretString:password}}"
         PasswordResetRequired: true
 
-  # --- 6. Assign s3-user to the S3 Group ---
+  # --- 6. Assign noblet_s3 to the S3 Group ---
   S3UserToGroupAddition:
     Type: AWS::IAM::UserToGroupAddition
     Properties:
@@ -61,7 +61,7 @@ Resources:
       Users:
         - !Ref S3User
 
-  # --- 7. Assign ec2-user to the EC2 Group ---
+  # --- 7. Assign noblet_ec2 to the EC2 Group ---
   EC2UserToGroupAddition:
     Type: AWS::IAM::UserToGroupAddition
     Properties:
