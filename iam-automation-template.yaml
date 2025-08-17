@@ -1,0 +1,75 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  This CloudFormation template creates two IAM user groups (S3 Read-Only and EC2 Read-Only),
+  a temporary password in AWS Secrets Manager, and two IAM users with console access assigned to these groups.
+
+Resources:
+  # --- One-Time Password stored in Secrets Manager ---
+  NewUserTempPassword:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: "Temporary password for new IAM users"
+      Name: "iam-user-temp-password"
+      GenerateSecretString:
+        PasswordLength: 16
+        IncludeSpace: false
+        RequireEachIncludedType: true
+
+  # --- 2. S3 User Group with read access to S3 ---
+  S3UserGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: "S3-ReadOnly-Group"
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+
+  # --- 3. EC2 Group with read access to EC2 ---
+  EC2UserGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: "EC2-ReadOnly-Group"
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
+
+  # --- 4. IAM User for S3 Access ---
+  S3User:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: "s3-user"
+      LoginProfile:
+        Password: "{{resolve:secretsmanager:NewUserTempPassword}}"
+        PasswordResetRequired: true
+
+  # --- 5. IAM User for EC2 Access ---
+  EC2User:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: "ec2-user"
+      LoginProfile:
+        Password: "{{resolve:secretsmanager:NewUserTempPassword}}"
+        PasswordResetRequired: true
+
+  # --- 6. Assign s3-user to the S3 Group ---
+  S3UserToGroupAddition:
+    Type: AWS::IAM::UserToGroupAddition
+    Properties:
+      GroupName: !Ref S3UserGroup
+      Users:
+        - !Ref S3User
+
+  # --- 7. Assign ec2-user to the EC2 Group ---
+  EC2UserToGroupAddition:
+    Type: AWS::IAM::UserToGroupAddition
+    Properties:
+      GroupName: !Ref EC2UserGroup
+      Users:
+        - !Ref EC2User
+
+Outputs:
+  IAMLoginURL:
+    Description: "The URL for IAM users to log in to the AWS Console."
+    Value: !Sub "https://console.aws.amazon.com/console/home?region=${AWS::Region}"
+  SecretARN:
+    Description: "The ARN of the secret containing the temporary password."
+    Value: !Ref NewUserTempPassword
+
