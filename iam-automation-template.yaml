@@ -35,7 +35,7 @@ Resources:
   S3User:
     Type: AWS::IAM::User
     Properties:
-      UserName: "s3-user"
+      UserName: "noblet_s3"
       LoginProfile:
         Password: "{{resolve:secretsmanager:NewUserTempPassword}}"
         PasswordResetRequired: true
@@ -44,7 +44,7 @@ Resources:
   EC2User:
     Type: AWS::IAM::User
     Properties:
-      UserName: "ec2-user"
+      UserName: "noblet_ec2"
       LoginProfile:
         Password: "{{resolve:secretsmanager:NewUserTempPassword}}"
         PasswordResetRequired: true
