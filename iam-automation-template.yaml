@@ -35,21 +35,21 @@ Resources:
 
   # --- 4. IAM User for S3 Access ---
   S3User:
-  Type: AWS::IAM::User
-  Properties:
-    UserName: "noblet_s3"
-    LoginProfile:
-      Password: !Sub "{{resolve:secretsmanager:iam-user-temp-passwordX:SecretString:password}}"
-      PasswordResetRequired: true
+    Type: AWS::IAM::User
+    Properties:
+      UserName: "noblet_s3"
+      LoginProfile:
+        Password: !Sub "{{resolve:secretsmanager:iam-user-temp-passwordX:SecretString:password}}"
+        PasswordResetRequired: true
 
   # --- 5. IAM User for EC2 Access ---
   EC2User:
-  Type: AWS::IAM::User
-  Properties:
-    UserName: "noblet_ec2"
-    LoginProfile:
-      Password: !Sub "{{resolve:secretsmanager:iam-user-temp-passwordX:SecretString:password}}"
-      PasswordResetRequired: true
+    Type: AWS::IAM::User
+    Properties:
+      UserName: "noblet_ec2"
+      LoginProfile:
+        Password: !Sub "{{resolve:secretsmanager:iam-user-temp-passwordX:SecretString:password}}"
+        PasswordResetRequired: true
 
   # --- 6. Assign s3-user to the S3 Group ---
   S3UserToGroupAddition:
@@ -74,4 +74,3 @@ Outputs:
   SecretARN:
     Description: "The ARN of the secret containing the temporary password."
     Value: !Ref NewUserTempPassword
-
