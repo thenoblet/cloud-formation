@@ -19,7 +19,7 @@ Resources:
   S3UserGroup:
     Type: AWS::IAM::Group
     Properties:
-      GroupName: "S3-ReadOnly-Group"
+      GroupName: "S3-ReadOnly-Group-APN"
       ManagedPolicyArns:
         - "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 
@@ -27,7 +27,7 @@ Resources:
   EC2UserGroup:
     Type: AWS::IAM::Group
     Properties:
-      GroupName: "EC2-ReadOnly-Group"
+      GroupName: "EC2-ReadOnly-Group-APN"
       ManagedPolicyArns:
         - "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
 
