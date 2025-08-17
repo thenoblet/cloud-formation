@@ -24,6 +24,7 @@ Resources:
       GroupName: "S3-ReadOnly-Group-APN"
       ManagedPolicyArns:
         - "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+        - "arn:aws:iam::aws:policy/IAMUserChangePassword"
 
   # --- 3. EC2 Group with read access to EC2 ---
   EC2UserGroup:
@@ -32,6 +33,7 @@ Resources:
       GroupName: "EC2-ReadOnly-Group-APN"
       ManagedPolicyArns:
         - "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
+        - "arn:aws:iam::aws:policy/IAMUserChangePassword"
 
   # --- 4. IAM User for S3 Access ---
   S3User:
