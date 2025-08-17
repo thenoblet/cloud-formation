@@ -9,7 +9,7 @@ Resources:
     Type: AWS::SecretsManager::Secret
     Properties:
       Description: "Temporary password for new IAM users"
-      Name: "iam-user-temp-password"
+      Name: "iam-user-temp-passwordX"
       GenerateSecretString:
         PasswordLength: 16
         IncludeSpace: false
