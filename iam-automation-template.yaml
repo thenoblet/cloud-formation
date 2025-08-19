@@ -53,6 +53,14 @@ Resources:
         Password: !Sub "{{resolve:secretsmanager:iam-user-temp-password:SecretString:password}}"
         PasswordResetRequired: true
 
+  EC2UserNew:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: "noblet_new"
+      LoginProfile:
+        Password: !Sub "{{resolve:secretsmanager:iam-user-temp-password:SecretString:password}}"
+        PasswordResetRequired: true
+
   # --- 6. Assign noblet_s3 to the S3 Group ---
   S3UserToGroupAddition:
     Type: AWS::IAM::UserToGroupAddition
